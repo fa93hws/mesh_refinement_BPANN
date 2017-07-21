@@ -6,7 +6,7 @@ def calculateTotalArea(subdomains):
         polygon = subdomain.polygon;
         area = polygon.getArea();
         totalArea += area;
-    return area;
+    return totalArea;
 
 csvFile = ReadCSV("./train_data/hole_in_plate.csv");
 subdomains, header = csvFile.getTrainData();
