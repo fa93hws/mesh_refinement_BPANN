@@ -1,33 +1,32 @@
 import csv;
 from Geometry import Point2D;
-from Geometry import Polygon;
-from subdomain import Displacement2D;
+from Geometry import Vector2D;
 from subdomain import subdomain;
 
 class ReadCSV:
     def __init__(self,path):
         self.path = path;
 
-    def _readPolyFromRow(self,nNodes,row):
-        coord = [];
+    def _readCoordsFromRow(self,nNodes,row):
+        coords = [];
         for i in range(0,nNodes):
             x = float(row[i*2+1]);
             y = float(row[i*2+2]);
-            coord.append(Point2D(x,y));
-        return Polygon(coord);
+            coords.append(Point2D(x,y));
+        return coords
 
     def _readDispFromRow(self,nNodes,row):
         displacement = [];
         for i in range(0,nNodes):
             ux = float(row[nNodes*2+2 + i*2+1]);
             uy = float(row[nNodes*2+2 + i*2+2]);
-            displacement.append(Displacement2D(ux,uy));
+            displacement.append(Vector2D(ux,uy));
         return displacement;
 
     def _readSubdomainFromRow(self,row):
         nNodes = int(row[0]);
         # read polygon
-        polygon = self._readPolyFromRow(nNodes,row);
+        coords = self._readCoordsFromRow(nNodes,row);
         # read scaling center
         x = float(row[nNodes*2+1]);
         y = float(row[nNodes*2+2]);
@@ -36,7 +35,7 @@ class ReadCSV:
         displacement = self._readDispFromRow(nNodes,row);
         # read error
         error = float(row[-1]);
-        return subdomain(polygon,SC,displacement,error);
+        return subdomain(coords,SC,displacement,error);
 
     def _readHeader(self,row):
         nSubdomains = int(row[0]);

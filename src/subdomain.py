@@ -1,13 +1,18 @@
+import math;
+from Geometry import Polygon;
 
-class Displacement2D:
-    def __init__(self,ux,uy):
-        self.ux = ux;
-        self.uy = uy;
 
 class subdomain:
-    def __init__(self,polygon,center,displacement,err):
-        self.polygon = polygon;
+    def __init__(self,coords,center,displacement,err):
+        # coords        array of point2d
+        # center        a point2d
+        # displacement  array of vector2d
+        # err           float 
+        self.polygon = Polygon(coords);
         self.center = center;
         self.displacement = displacement;
         self.err = err;
+
+    # def _getAngle():
+
 

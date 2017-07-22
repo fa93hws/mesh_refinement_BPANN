@@ -5,12 +5,17 @@ class Point2D:
         self.x = x;
         self.y = y;
 
+class Vector2D:
+    def __init__(self,x,y):
+        self.x = x;
+        self.y = y;
+
 class Polygon:
     def __init__(self,nodes):
         self.nodes = nodes;
-        self.area = self.getArea();
+        self.area = self._getArea();
 
-    def getArea(self):
+    def _getArea(self):
         x = [pt.x for pt in self.nodes];
         y = [pt.y for pt in self.nodes];
         area = numpy.dot(x , numpy.roll(y,1));
