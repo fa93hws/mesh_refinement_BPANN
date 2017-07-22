@@ -1,4 +1,4 @@
-from ReadCSV import ReadCSV;
+from src.ReadCSV import ReadCSV;
 
 def calculateTotalArea(subdomains):
     totalArea = 0.0;
