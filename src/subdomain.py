@@ -42,6 +42,8 @@ class subdomain:
                 vec1 = self.displacement[i];
                 vec2 = self.displacement[j];
                 diff = (vec1 - vec2).getNorm();
+                dist = self.polygon.nodes[i].distanceTo(self.polygon.nodes[j]);
+                diff /= dist;
                 if diff > maxDiff:
                     maxDiff = diff;
         return maxDiff;

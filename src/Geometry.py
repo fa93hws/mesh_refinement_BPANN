@@ -6,6 +6,8 @@ class Point2D:
     def __init__(self,x,y):
         self.x = x;
         self.y = y;
+    def distanceTo(self,pt):
+        return Vector2D(pts=[pt,self]).getNorm();
 
 class Vector2D:
     def _initWithCoor(self,x,y):
