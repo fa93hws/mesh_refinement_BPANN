@@ -1,7 +1,7 @@
 import csv;
 from Geometry import Point2D;
 from Geometry import Polygon;
-from Displacement import Displacement2D;
+from subdomain import Displacement2D;
 from subdomain import subdomain;
 
 class ReadCSV:
