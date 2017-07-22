@@ -1,15 +1,17 @@
 import csv;
-from Geometry import Point2D;
-from Geometry import Vector2D;
-from subdomain import subdomain;
 from collections import deque;
+
+from src.Geometry import Point2D;
+from src.Geometry import Vector2D;
+from src.subdomain import subdomain;
+
 
 class ReadCSV:
     def __init__(self,path):
         self.path = path;
 
     def _readCoordsFromRow(self,nNodes,row):
-        coords = deque();
+        coords = [];
         for i in range(0,nNodes):
             x = float(row[i*2+1]);
             y = float(row[i*2+2]);
@@ -17,7 +19,7 @@ class ReadCSV:
         return coords
 
     def _readDispFromRow(self,nNodes,row):
-        displacement = deque();
+        displacement = [];
         for i in range(0,nNodes):
             ux = float(row[nNodes*2+2 + i*2+1]);
             uy = float(row[nNodes*2+2 + i*2+2]);
