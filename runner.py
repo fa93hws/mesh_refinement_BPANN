@@ -64,8 +64,8 @@ def getRefined(err):
 csvFile = ReadCSV("./train_data/hole_in_plate.csv");
 subdomains, header = csvFile.getTrainData();
 collection = SubDomainCollection(subdomains,header);
-# trainX,trainY = collection.extractTrainData();
-# collection.plotCls2D(trainX,trainY);
+trainX,trainY = collection.extractTrainData();
+collection.plotCls2D(trainX,trainY);
 # build neural network
 # regressor = KNeighborsClassifier(n_neighbors=3);
 regressor = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1);
@@ -79,9 +79,9 @@ predictY = regressor.predict(predictX);
 score = regressor.score(predictX,correctY);
 print(score);
 # plot result
-ploter.plot(predictY,'r');
-ploter.plot(correctY,'b');
-ploter.legend(['predict','correct']);
-ploter.show();
+# ploter.plot(predictY,'r');
+# ploter.plot(correctY,'b');
+# ploter.legend(['predict','correct']);
+# ploter.show();
 
-print("done");
+# print("done");
