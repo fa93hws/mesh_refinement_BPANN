@@ -1,4 +1,3 @@
-import math;
 from Geometry import Polygon;
 
 
@@ -14,5 +13,6 @@ class subdomain:
         self.err = err;
 
     # def _getAngle():
+
 
 

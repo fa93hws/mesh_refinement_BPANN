@@ -2,13 +2,14 @@ import csv;
 from Geometry import Point2D;
 from Geometry import Vector2D;
 from subdomain import subdomain;
+from collections import deque;
 
 class ReadCSV:
     def __init__(self,path):
         self.path = path;
 
     def _readCoordsFromRow(self,nNodes,row):
-        coords = [];
+        coords = deque();
         for i in range(0,nNodes):
             x = float(row[i*2+1]);
             y = float(row[i*2+2]);
@@ -16,7 +17,7 @@ class ReadCSV:
         return coords
 
     def _readDispFromRow(self,nNodes,row):
-        displacement = [];
+        displacement = deque();
         for i in range(0,nNodes):
             ux = float(row[nNodes*2+2 + i*2+1]);
             uy = float(row[nNodes*2+2 + i*2+2]);
@@ -46,7 +47,7 @@ class ReadCSV:
         with open(self.path) as csvFile:
             reader = csv.reader(csvFile, delimiter=',');
             isFirstRow = True;
-            subdomains=[];
+            subdomains=deque();
             for row in reader:
                 if isFirstRow is False:
                     subdomain = self._readSubdomainFromRow(row);
