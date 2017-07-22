@@ -8,6 +8,7 @@ class Point2D:
 class Polygon:
     def __init__(self,nodes):
         self.nodes = nodes;
+        self.area = self.getArea();
 
     def getArea(self):
         x = [pt.x for pt in self.nodes];
