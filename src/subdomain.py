@@ -10,7 +10,7 @@ class subdomain:
         # center        a point2d
         # displacement  array of vector2d
         # err           float 
-        self.polygon = Polygon(coords);
+        self.polygon = Polygon(coords,center);
         self.center = center;
         self.displacement = displacement;
         self.error = err;

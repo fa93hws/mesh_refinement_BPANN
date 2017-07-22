@@ -1,5 +1,6 @@
 import numpy;
 import math;
+from operator import itemgetter;
 
 class Point2D:
     def __init__(self,x,y):
@@ -28,10 +29,19 @@ class Vector2D:
         return math.sqrt(self.x**2 + self.y**2);
 
 class Polygon:
-    def __init__(self,nodes):
+    def __init__(self,nodes,center):
         # nodes         array of point2d
         self.nodes = nodes;
+        self._reorgnizePts(center);
         self.area = self._getArea();
+    def _reorgnizePts(self,center):
+        angles = [];
+        for pt in self.nodes:
+            direction = Vector2D(pts=[center, pt]);
+            angle = numpy.arctan2(direction.y,direction.x);
+            angles.append(angle);
+        idx = sorted(range(len(angles)),key=lambda i:angles[i]);
+        self.nodes = itemgetter(*idx)(self.nodes);
     def _getArea(self):
         x = [pt.x for pt in self.nodes];
         y = [pt.y for pt in self.nodes];
