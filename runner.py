@@ -15,8 +15,15 @@ class SubDomainCollection:
         self.dispDiffs = self._normalizeArray(dispDiffs);
         areas = [sd.polygon.area for sd in subdomains];
         self.areas = self._normalizeArray(areas);
-        improves = [(globalError-sd.error)/globalError for sd in subdomains];
-        self.improves = self._normalizeArray(improves);
+        self.refined = [sd.refined for sd in subdomains];
+        dispNu = [sd.dispIndicator[0] for sd in subdomains];
+        self.dispNu = self._normalizeArray(dispNu);
+        dispDenu = [sd.dispIndicator[1] for sd in subdomains];
+        self.dispDenu = self._normalizeArray(dispDenu);
+        stressNu = [sd.stressIndicator[0] for sd in subdomains];
+        self.stressNu = self._normalizeArray(stressNu);
+        stressDenu = [sd.stressIndicator[1] for sd in subdomains];
+        self.stressDenu = self._normalizeArray(stressDenu);
     def _normalizeArray(self,array):
         maxValue = max(array);
         normalizedArray = [x/maxValue for x in array];
@@ -24,14 +31,16 @@ class SubDomainCollection:
     def extractTrainData(self,mode='default'):
         x = [];
         y = [];
-        for i in range(0,len(self.improves)):
+        for i in range(0,len(self.refined)):
             if (mode is 'odd' and i%2==0) or (mode is 'even' and i%2==1):
                 continue;
-            if len(self.subdomains[i].polygon.nodes) is not 4:
-                continue;
-            features = [self.areas[i],self.dispDiffs[i]];
+            features = [self.areas[i],self.angleRatio[i]];
+            features.append(self.dispNu[i]);
+            features.append(self.dispDenu[i]);
+            features.append(self.stressNu[i]);
+            features.append(self.stressDenu[i]);
             x.append(features);
-            y.append(self.improves[i]);
+            y.append(self.refined[i]);
         return x,getRefined(y);
     def plotCls2D(self,x,y):
         rx=[];ry=[];bx=[];by=[];
@@ -60,28 +69,28 @@ def getRefined(err):
     err[idx0] = 0;
     return err;
 
-# reading data from csv
+##          reading data from csv
 csvFile = ReadCSV("./train_data/hole_in_plate.csv");
 subdomains, header = csvFile.getTrainData();
 collection = SubDomainCollection(subdomains,header);
-trainX,trainY = collection.extractTrainData();
-collection.plotCls2D(trainX,trainY);
-# build neural network
+# trainX,trainY = collection.extractTrainData();
+# collection.plotCls2D(trainX,trainY);
+##           build neural network
 # regressor = KNeighborsClassifier(n_neighbors=3);
-regressor = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1);
+regressor = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, ), random_state=1);
 # trainX,trainY = collection.extractTrainData();
 trainX,trainY = collection.extractTrainData(mode='odd');
-# train
+##           train
 regressor.fit(trainX,trainY);
-# fit test data
+##           fit test data
 predictX,correctY = collection.extractTrainData(mode='even');
 predictY = regressor.predict(predictX);
 score = regressor.score(predictX,correctY);
 print(score);
-# plot result
-# ploter.plot(predictY,'r');
-# ploter.plot(correctY,'b');
-# ploter.legend(['predict','correct']);
-# ploter.show();
+##           plot result
+ploter.plot(predictY,'r');
+ploter.plot(correctY,'b');
+ploter.legend(['predict','correct']);
+ploter.show();
 
 # print("done");

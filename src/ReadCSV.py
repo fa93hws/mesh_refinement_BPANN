@@ -36,9 +36,12 @@ class ReadCSV:
         SC = Point2D(x,y);
         # read disp
         displacement = self._readDispFromRow(nNodes,row);
-        # read error
-        error = float(row[-1]);
-        return subdomain(coords,SC,displacement,error);
+        # read indicator
+        dispIndicator   = [float(row[-5]),float(row[-4])];
+        stressIndicator = [float(row[-3]),float(row[-2])];
+        # read refined
+        refined = int(row[-1]);
+        return subdomain(coords,SC,displacement,dispIndicator,stressIndicator,refined);
 
     def _readHeader(self,row):
         nSubdomains = int(row[0]);

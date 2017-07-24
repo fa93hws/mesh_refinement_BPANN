@@ -5,15 +5,18 @@ import numpy;
 import math;
 
 class subdomain:
-    def __init__(self,coords,center,displacement,err):
+    def __init__(self,coords,center,displacement,dispIndicator,stressIndicator,refined):
         # coords        array of point2d
         # center        a point2d
         # displacement  array of vector2d
-        # err           float 
+        # refined       1=refined, 0=no
+        # 
         self.polygon = Polygon(coords,center);
         self.center = center;
         self.displacement = displacement;
-        self.error = err;
+        self.refined = refined;
+        self.dispIndicator = dispIndicator;
+        self.stressIndicator = stressIndicator;
         self.angles = self._getAngles();
     def _getAngles(self):
         angles = deque();
