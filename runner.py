@@ -41,7 +41,7 @@ class SubDomainCollection:
             features.append(self.stressDenu[i]);
             x.append(features);
             y.append(self.refined[i]);
-        return x,getRefined(y);
+        return x,y;
     def plotCls2D(self,x,y):
         rx=[];ry=[];bx=[];by=[];
         for i in range(0,len(y)):
@@ -77,16 +77,19 @@ collection = SubDomainCollection(subdomains,header);
 # collection.plotCls2D(trainX,trainY);
 ##           build neural network
 # regressor = KNeighborsClassifier(n_neighbors=3);
-regressor = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, ), random_state=1);
+regressor = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 5), random_state=1);
 # trainX,trainY = collection.extractTrainData();
 trainX,trainY = collection.extractTrainData(mode='odd');
 ##           train
 regressor.fit(trainX,trainY);
 ##           fit test data
-predictX,correctY = collection.extractTrainData(mode='even');
+predictX,correctY = collection.extractTrainData();
 predictY = regressor.predict(predictX);
 score = regressor.score(predictX,correctY);
 print(score);
+##           print coes
+
+# print (regressor.coefs_);
 ##           plot result
 ploter.plot(predictY,'r');
 ploter.plot(correctY,'b');
